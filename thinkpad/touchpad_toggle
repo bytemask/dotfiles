@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# Touchpad xinput id
+TP=$(xinput list | grep SynPS | cut -f2 | cut -f2 -d=)
+
+## remember to change the above option so that it corresponds to the correct xinput id
+# run: xinput list
+# if xinput isn't installed, install it you dummy!
+
+if xinput list-props $TP | grep -E "Device Enabled \([0-9]{3}\):[[:space:]]*1" > /dev/null
+then
+    xinput disable $TP
+    notify-send -u low -i mouse "Trackpad" "Disabled!"
+else
+    xinput enable $TP
+    notify-send -u low -i mouse "Trackpad" "Enabled!"
+fi
